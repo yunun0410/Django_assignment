@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,7 +7,6 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>User Info</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,14 +38,47 @@
         th {
             background: #f0f0f0;
         }
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+        /* 버튼 스타일 */
+        .button-group {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button-group:hover {
+            background-color: #0056b3;
+        }
+
+        #delete-button {
+            background-color: #ff1122;
+        }
+        #delete-button:hover {
+            background-color: #cc1122;
+        }
     </style>
+    <title>User Info</title>
 </head>
 <body>
     <div class="container">
-        <h1>{{ data.title }}</h1>
+        <div style="display: flex; justify-content: space-between">
+            <h1>{{ todo.title }}</h1>
+            <div>
+                <button class="button-group" onclick="location.href='{% url 'todo_update' todo.id %}'">수정하기</button>
+                <button class="button-group" id="delete-button" onclick="location.href='{% url 'todo_delete' todo.id %}'">삭제하기</button>
+            </div>
+        </div>
         <table>
-            {% for key, value in data.items %}
-                {% if key != 'title' %}
+            {% for key, value in todo.items %}
+                {% if key != 'title' and key != 'id' and key != 'user_id' and key != '_state'%}
                     <tr>
                         <th>{{ key }}</th>
                         <td>{{ value }}</td>
@@ -52,7 +86,7 @@
                 {% endif %}
             {% endfor %}
         </table>
-
     </div>
+    {% endblock %}
 </body>
 </html>
